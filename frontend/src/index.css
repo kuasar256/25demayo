@@ -1,0 +1,198 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  scrollbar-gutter: stable;
+}
+
+/* Tema personalizado (antes en tailwind.config.js) */
+@theme {
+  --font-sans: 'Poppins', system-ui, sans-serif;
+
+  /* Paleta del documento (sección 6.2) */
+  --color-primary: var(--theme-primary, #F20732);
+  --color-secondary: var(--theme-secondary, #07038C);
+  --color-page: var(--theme-page, #F5F6FA);
+  --color-surface: var(--theme-surface, #FFFFFF);
+  --color-elevated: var(--theme-elevated, #FFFFFF);
+  --color-ink: var(--theme-ink, #1A1A1A);
+  --color-muted: var(--theme-muted, #6C757D);
+  --color-line: var(--theme-line, #E5E7EB);
+  --color-success: var(--theme-success, #28A745);
+  --color-warning: var(--theme-warning, #FFC107);
+  --color-danger: var(--theme-danger, #F20732);
+
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
+  --radius-card: 12px;
+}
+
+/* Paleta oscura: neutros carbón con acentos cian y rosa. */
+.dark {
+  color-scheme: dark;
+  --theme-page: #0B0B0F;
+  --theme-surface: #16161D;
+  --theme-elevated: #202029;
+  --theme-ink: #F4F4F6;
+  --theme-muted: #B0B0BC;
+  --theme-line: #30303C;
+  --theme-primary: #FE2C55;
+  --theme-secondary: #25F4EE;
+  --theme-success: #56D9A0;
+  --theme-warning: #F5C76B;
+  --theme-danger: #FF708D;
+  --theme-on-accent: #0B0B0F;
+  --theme-chart-accent: #25F4EE;
+  --theme-chart-pink: #FE2C55;
+  --theme-chart-green: #56D9A0;
+  --theme-chart-amber: #F5C76B;
+  --theme-chart-violet: #B5A0FF;
+}
+
+/* Componentes reutilizables */
+@layer components {
+  .card {
+    @apply bg-white rounded-card shadow-card p-5;
+  }
+  .btn-primary {
+    @apply bg-primary text-white font-semibold rounded-lg px-4 py-2
+      hover:opacity-90 transition disabled:opacity-50;
+  }
+  .btn-secondary {
+    @apply bg-secondary text-white font-semibold rounded-lg px-4 py-2
+      hover:opacity-90 transition disabled:opacity-50;
+  }
+  .btn-tertiary {
+    @apply bg-line text-ink font-semibold rounded-lg px-4 py-2
+      hover:opacity-80 transition disabled:opacity-50;
+  }
+  .input {
+    @apply w-full border border-line rounded-lg px-3 py-2 text-sm bg-transparent text-ink
+      focus:outline-none focus:ring-2 focus:ring-secondary/40;
+  }
+  .label {
+    @apply block text-sm font-medium text-ink mb-1;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+}
+
+/* Superficies compartidas: también cubren diálogos y menús existentes. */
+.dark body {
+  background: var(--theme-page);
+  color: var(--theme-ink);
+}
+.dark .card {
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-line);
+  box-shadow: 0 4px 20px rgb(0 0 0 / 12%);
+}
+.dark .bg-white {
+  background-color: var(--theme-surface) !important;
+}
+.dark .bg-secondary {
+  background-color: #123438;
+}
+.dark .btn-primary,
+.dark .bg-primary.text-white,
+.dark .bg-success.text-white,
+.dark .bg-warning.text-white,
+.dark .bg-danger.text-white {
+  color: var(--theme-on-accent);
+}
+.dark .btn-secondary {
+  background-color: var(--theme-secondary);
+  color: var(--theme-on-accent);
+}
+.dark .btn-primary:hover:not(:disabled) {
+  background-color: #FF5274;
+  opacity: 1;
+}
+.dark .btn-secondary:hover:not(:disabled) {
+  background-color: #69F8F3;
+  opacity: 1;
+}
+.dark .btn-tertiary {
+  background-color: var(--theme-elevated);
+  border: 1px solid var(--theme-line);
+}
+.dark .input {
+  background-color: #111117;
+  border-color: #3B3B48;
+  caret-color: var(--theme-secondary);
+}
+.dark .input::placeholder { color: #9393A2; opacity: 1; }
+.dark .input:focus {
+  border-color: var(--theme-secondary);
+  box-shadow: 0 0 0 3px rgb(37 244 238 / 14%);
+}
+.dark select option {
+  background: var(--theme-surface);
+  color: var(--theme-ink);
+}
+.dark input[type='checkbox'],
+.dark input[type='radio'] { accent-color: var(--theme-secondary); }
+.dark a[aria-current='page'] {
+  background-color: rgb(37 244 238 / 9%);
+  color: var(--theme-secondary);
+  box-shadow: inset 3px 0 0 var(--theme-secondary);
+}
+.dark table thead { background-color: rgb(255 255 255 / 2%); }
+.dark ::selection { background: rgb(37 244 238 / 24%); color: #FFFFFF; }
+.dark { scrollbar-color: #454551 var(--theme-page); }
+.dark :focus-visible { outline: 2px solid var(--theme-secondary); outline-offset: 3px; }
+.dark .input:focus-visible { outline: none; }
+@media (prefers-reduced-motion: no-preference) {
+  body { transition: background-color 160ms ease, color 160ms ease; }
+}
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  .dark {
+    color-scheme: light;
+    --theme-page: #FFFFFF;
+    --theme-surface: #FFFFFF;
+    --theme-elevated: #FFFFFF;
+    --theme-ink: #111111;
+    --theme-muted: #555555;
+    --theme-line: #CCCCCC;
+  }
+  html {
+    scrollbar-gutter: auto;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  .no-print,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .print-only {
+    display: inline !important;
+  }
+
+  .report-print,
+  .report-print .card {
+    color: #111 !important;
+    box-shadow: none !important;
+  }
+
+  .report-print .card {
+    border-color: #ccc !important;
+    break-inside: avoid;
+  }
+
+  .report-print table {
+    font-size: 10pt;
+  }
+}
+
